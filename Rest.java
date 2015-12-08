@@ -10,12 +10,16 @@ public class Rest {
 		line = br.readlin();
 		int numOfTab = Integer.parseInt(line);
 
+		for (int i = 0; i < numOfTab; i++) {
+			TableQueue.put(new Table());
+		}
+
 		// Second, # of Tables;
 		line = br.readlin();
 		int numOfCook = Integer.parseInt(line);
 
 		for (int i = 0; i < numOfDim; i++) {
-
+			
 		}
 
 	}
