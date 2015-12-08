@@ -1,20 +1,38 @@
-public class Order {
-	private int Burger;
-	private int Fries;
-	private int Coke;
-	private int Sundae;
+import java.util.concurrent.*;
+import java.util.*;
 
-	public Order(int Burger, int Fries, int Coke, int Sundae) {
-		this.Burger = Burger;
-		this.Fries = Fries;
-		this.Coke = Coke;
-		this.Sundae = Sundae;
+public class Order {
+	public LinkedBlockingQueue<OrderImpl> orderQueue = new LinkedBlockingQueue<OrderImpl>();
+	public ArrayList<OrderImpl> finishQueue = new ArrayList<OrderImpl>();
+
+	public synchronized OrderImpl getOrder() throws Exception{
+		while(orderQueue.isEmpty()) {
+			wait();
+		}
+		return orderQueue.poll();
 	}
 
-	public boolean ifFinished() {
-		if ((Burger==0) && (Fries == 0) && (Coke == 0) && (Sundae == 0)) {
-			return true;
+	public synchronized void putOrder(OrderImpl oi) throws Exception{
+		orderQueue.put(oi);
+	}
+
+	public synchronized void checkFinish(int id) throws Exception{
+		while(traverse(id)) {
+			wait();
 		}
-		return false;
+	}
+
+	public synchronized void putFinish(OrderImpl oi) {
+		finishQueue.add(oi);
+	}
+
+	public boolean traverse(int id) {
+		for (OrderImpl ooi: finishQueue) {
+			if (ooi.id == id) {
+				finishQueue.remove(ooi);
+				return false;
+			}
+		}
+		return true;
 	}
 }
