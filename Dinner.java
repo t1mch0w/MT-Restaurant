@@ -20,31 +20,35 @@ public class Dinner implements Runnable {
 	}
 
 	public void run() {
-		// Get a Seat
-		ti = table.sitInTable();
-		seatedTable = ti.getId();
+		try {
+			// Get a Seat
+			ti = table.sitInTable();
+			seatedTable = ti.getId();
 
-		if (arrivedTime > ti.getTime()) {
-			sitTime = arrivedTime;
+			if (arrivedTime > ti.getTime()) {
+				sitTime = arrivedTime;
+			}
+			else {
+				sitTime = ti.getTime();
+			}
+
+			// Output 
+			System.out.format("Dinner %d get the table %d at time %d \n", id, ti.getId(), sitTime);
+
+			// Add the Order
+			OrderImpl oi = new OrderImpl(id, burger, fries, coke, sundae);
+			order.putOrder(oi);	
+
+			// Wait for Finish 
+			order.checkFinish(id);
+
+			// Eat for 30 mins
+			System.out.format("Dinner %d Eat for 30 mins.\n", id);
+
+			// Return the table
+			table.returnTable(ti);
 		}
-		else {
-			sitTime = ti.getTime();
+		catch (Exception e) {
 		}
-
-		// Output 
-		System.out.format("Dinner %d get the table %d at time %d \n", id, ti.getId(), sitTime);
-
-		// Add the Order
-		OrderImpl oi = new OrderImpl(id, burger, fries, coke, sundae);
-		order.putOrder(oi);	
-
-		// Wait for Finish 
-		order.checkFinish(id);
-
-		// Eat for 30 mins
-		System.out.format("Dinner %d Eat for 30 mins.\n", id);
-
-		// Return the table
-		table.returnTable(ti);
 	}
 }

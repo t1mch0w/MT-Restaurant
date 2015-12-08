@@ -10,39 +10,43 @@ public class Cook implements Runnable{
 		this.machine = machine;
 	}
 
-	public void run() {
+	public void run(){
 		while (true) {
-			// Get the Order
-			oi = order.getOrder();
+			try {
+				// Get the Order
+				oi = order.getOrder();
 
-			// Use Machines
+				// Use Machines
 
-			// Burger
-			for( int i = 0; i < oi.burger; i++) {
-				machine.getBurgerM();
-				machine.releaseBurgerM();
+				// Burger
+				for( int i = 0; i < oi.burger; i++) {
+					machine.getBurgerM();
+					machine.releaseBurgerM();
+				}
+
+				// Fries
+				for( int i = 0; i < oi.burger; i++) {
+					machine.getFriesM();
+					machine.releaseFriesM();
+				}
+
+				// Coke
+				for( int i = 0; i < oi.burger; i++) {
+					machine.getCokeM();
+					machine.releaseCokeM();
+				}
+
+				// Sundae
+				for( int i = 0; i < oi.burger; i++) {
+					machine.getSundaeM();
+					machine.releaseSundaeM();
+				}
+
+				// Finish the Order
+				order.putFinish(oi);		
 			}
-
-			// Fries
-			for( int i = 0; i < oi.burger; i++) {
-				machine.getFriesM();
-				machine.releaseFriesM();
+			catch (Exception e) {
 			}
-
-			// Coke
-			for( int i = 0; i < oi.burger; i++) {
-				machine.getCokeM();
-				machine.releaseCokeM();
-			}
-
-			// Sundae
-			for( int i = 0; i < oi.burger; i++) {
-				machine.getSundaeM();
-				machine.releaseSundaeM();
-			}
-
-			// Finish the Order
-			order.putFinish(oi);		
 		}
 	}
 }
