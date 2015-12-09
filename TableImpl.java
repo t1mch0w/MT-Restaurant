@@ -1,6 +1,6 @@
 public class TableImpl {
-	private int id;
-	private int time;
+	public int id;
+	public int time = 0;
 
 	public TableImpl(int id, int time) {
 		this.id = id;

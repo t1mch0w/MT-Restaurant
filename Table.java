@@ -21,6 +21,7 @@ public class Table {
 
 	public synchronized void returnTable(TableImpl ti) throws Exception{
 		tableQueue.put(ti);
+		notifyAll();
 	}
 
 }
